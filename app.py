@@ -14,6 +14,8 @@ alert_sound_encoded = base64.b64encode(alert_sound).decode('ascii')
 # Payment Details Input Form
 st.title("Online Payment Fraud Detection")
 
+st.image("image1.png", use_column_width=True)
+
 st.header("Payment Details")
 
 payment_type = st.selectbox("Payment Type", ["CASH_OUT", "TRANSFER", "PAYMENT", "CASH_IN", "DEBIT"])
