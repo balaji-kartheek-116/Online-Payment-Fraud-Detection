@@ -57,6 +57,39 @@ if session_state.authenticated:
     old_balance_dest = st.number_input("Old Balance of Destination Account")
     new_balance_dest = st.number_input("New Balance of Destination Account")
 
+    # Visualizations
+    st.markdown("### Data Visualization")
+    st.markdown("#### 1. Distribution of Payment Types")
+    payment_types = ['CASH_OUT', 'TRANSFER', 'PAYMENT', 'CASH_IN', 'DEBIT']
+    payment_counts = [1000, 2000, 1500, 1800, 1200]  # Example data, replace with your actual data
+    plt.bar(payment_types, payment_counts)
+    plt.xlabel('Payment Type')
+    plt.ylabel('Frequency')
+    st.pyplot()
+
+    st.markdown("#### 2. Scatter Plot: Old Balance Origin vs. New Balance Origin")
+    df = pd.DataFrame({
+        'Old Balance Origin': [old_balance_origin],
+        'New Balance Origin': [new_balance_origin]
+    })
+    sns.scatterplot(data=df, x='Old Balance Origin', y='New Balance Origin')
+    st.pyplot()
+
+    st.markdown("#### 3. Distribution of Amount")
+    amounts = [100, 200, 300, 400, 500]  # Example data, replace with your actual data
+    plt.hist(amounts, bins=5)
+    plt.xlabel('Amount')
+    plt.ylabel('Frequency')
+    st.pyplot()
+
+    st.markdown("#### 4. Balance Change Comparison")
+    balance_changes = [old_balance_origin - new_balance_origin, old_balance_dest - new_balance_dest]
+    labels = ['Origin Account', 'Destination Account']
+    plt.bar(labels, balance_changes)
+    plt.xlabel('Account')
+    plt.ylabel('Balance Change')
+    st.pyplot()
+
     # Button to trigger prediction
     if st.button("Predict"):
         # Convert input data to DataFrame
@@ -106,37 +139,3 @@ if session_state.authenticated:
             message += "<p><strong>New Balance of Destination Account:</strong> {} thousand</p>".format(new_balance_dest)
         # Display the message using HTML
         st.markdown(message, unsafe_allow_html=True)
-
-        # Visualizations
-        st.markdown("### Data Visualization")
-        st.markdown("#### 1. Distribution of Payment Types")
-        payment_types = ['CASH_OUT', 'TRANSFER', 'PAYMENT', 'CASH_IN', 'DEBIT']
-        payment_counts = [1000, 2000, 1500, 1800, 1200]  # Example data, replace with your actual data
-        plt.bar(payment_types, payment_counts)
-        plt.xlabel('Payment Type')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        st.markdown("#### 2. Scatter Plot: Old Balance Origin vs. New Balance Origin")
-        df = pd.DataFrame({
-            'Old Balance Origin': [old_balance_origin],
-            'New Balance Origin': [new_balance_origin]
-        })
-        sns.scatterplot(data=df, x='Old Balance Origin', y='New Balance Origin')
-        st.pyplot()
-
-        st.markdown("#### 3. Distribution of Amount")
-        amounts = [100, 200, 300, 400, 500]  # Example data, replace with your actual data
-        plt.hist(amounts, bins=5)
-        plt.xlabel('Amount')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        st.markdown("#### 4. Balance Change Comparison")
-        balance_changes = [old_balance_origin - new_balance_origin, old_balance_dest - new_balance_dest]
-        labels = ['Origin Account', 'Destination Account']
-        plt.bar(labels, balance_changes)
-        plt.xlabel('Account')
-        plt.ylabel('Balance Change')
-        st.pyplot()
-
