@@ -8,6 +8,7 @@ from sklearn.preprocessing import LabelEncoder
 
 # Disable warning
 st.set_option('deprecation.showPyplotGlobalUse', False)
+df = pd.read_csv("PaymentTransactions.csv")
 
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
@@ -79,20 +80,13 @@ if session_state.authenticated:
     st.pyplot()
 
     st.markdown("#### 3. Distribution of Amount")
-    amounts = [100, 200, 300, 400, 500]  # Example data, replace with your actual data
+    amounts = df.amount  # Example data, replace with your actual data
     plt.hist(amounts, bins=5)
     plt.xlabel('Amount')
     plt.ylabel('Frequency')
     st.pyplot()
 
-    st.markdown("#### 4. Balance Change Comparison")
-    balance_changes = [old_balance_origin - new_balance_origin, old_balance_dest - new_balance_dest]
-    labels = ['Origin Account', 'Destination Account']
-    plt.bar(labels, balance_changes)
-    plt.xlabel('Account')
-    plt.ylabel('Balance Change')
-    st.pyplot()
-
+    
     # Button to trigger prediction
     if st.button("Predict"):
         # Convert input data to DataFrame
