@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 
+# Disable warning
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
 
