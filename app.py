@@ -27,6 +27,33 @@ def authenticate(username, password):
 st.title("Online Payment Fraud Detection")
 st.image("image1.png")
 
+# Additional Visualizations
+st.markdown("## Additional Visualizations")
+
+# Distribution of Payment Types
+st.subheader("Distribution of Payment Types")
+payment_counts = df['type'].value_counts()
+plt.bar(payment_counts.index, payment_counts.values)
+plt.xlabel('Payment Type')
+plt.ylabel('Frequency')
+st.pyplot()
+
+# Scatter Plot: Old Balance Origin vs. New Balance Origin
+st.subheader("Scatter Plot: Old Balance Origin vs. New Balance Origin")
+sns.scatterplot(data=df, x='oldbalanceOrg', y='newbalanceOrig')
+st.pyplot()
+
+# Scatter Plot: Old Balance Destination vs. New Balance Destination
+st.subheader("Scatter Plot: Old Balance Destination vs. New Balance Destination")
+sns.scatterplot(data=df, x='oldbalanceDest', y='newbalanceDest')
+st.pyplot()
+
+# Correlation Heatmap
+st.subheader("Correlation Heatmap")
+corr = df[['oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest']].corr()
+sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f")
+st.pyplot()
+
 # Sidebar for login/logout
 st.sidebar.header("Authentication")
 username = st.sidebar.text_input("Username")
@@ -52,6 +79,7 @@ else:
     st.sidebar.warning("Please login to continue.")
 
 if session_state.authenticated:
+    st.markdown("## Prediction of the Payment")
     payment_type = st.selectbox("Payment Type", ["CASH_OUT", "TRANSFER", "PAYMENT", "CASH_IN", "DEBIT"])
     amount = st.number_input("Amount Available")
     old_balance_origin = st.number_input("Old Balance of Origin Account")
@@ -109,30 +137,3 @@ if session_state.authenticated:
         
         # Display the message using HTML
         st.markdown(message, unsafe_allow_html=True)
-        
-        # Additional Visualizations
-        st.markdown("### Additional Visualizations")
-        
-        # Distribution of Payment Types
-        st.subheader("Distribution of Payment Types")
-        payment_counts = df['type'].value_counts()
-        plt.bar(payment_counts.index, payment_counts.values)
-        plt.xlabel('Payment Type')
-        plt.ylabel('Frequency')
-        st.pyplot()
-
-        # Scatter Plot: Old Balance Origin vs. New Balance Origin
-        st.subheader("Scatter Plot: Old Balance Origin vs. New Balance Origin")
-        sns.scatterplot(data=df, x='oldbalanceOrg', y='newbalanceOrig')
-        st.pyplot()
-
-        # Scatter Plot: Old Balance Destination vs. New Balance Destination
-        st.subheader("Scatter Plot: Old Balance Destination vs. New Balance Destination")
-        sns.scatterplot(data=df, x='oldbalanceDest', y='newbalanceDest')
-        st.pyplot()
-
-        # Correlation Heatmap
-        st.subheader("Correlation Heatmap")
-        corr = df[['oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest']].corr()
-        sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f")
-        st.pyplot()
