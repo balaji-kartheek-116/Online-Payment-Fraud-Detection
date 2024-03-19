@@ -11,7 +11,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 df = pd.read_csv("PaymentTransactions.csv")
 
 
-st.write(df.head())
+
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
 
@@ -82,8 +82,7 @@ if session_state.authenticated:
     st.pyplot()
 
     st.markdown("#### 3. Distribution of Amount")
-    amounts = df['amount']  # Example data, replace with your actual data
-    plt.hist(amounts, bins=5)
+    plt.hist(df['amount'], bins=5)
     plt.xlabel('Amount')
     plt.ylabel('Frequency')
     st.pyplot()
