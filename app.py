@@ -10,8 +10,6 @@ from sklearn.preprocessing import LabelEncoder
 st.set_option('deprecation.showPyplotGlobalUse', False)
 df = pd.read_csv("PaymentTransactions.csv")
 
-
-
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
 
@@ -57,7 +55,6 @@ else:
 
 if session_state.authenticated:
     payment_type = st.selectbox("Payment Type", ["CASH_OUT", "TRANSFER", "PAYMENT", "CASH_IN", "DEBIT"])
-    amount = st.number_input("Amount Available")
     old_balance_origin = st.number_input("Old Balance of Origin Account")
     new_balance_origin = st.number_input("New Balance of Origin Account")
     old_balance_dest = st.number_input("Old Balance of Destination Account")
@@ -66,34 +63,25 @@ if session_state.authenticated:
     # Visualizations
     st.markdown("### Data Visualization")
     st.markdown("#### 1. Distribution of Payment Types")
-    payment_types = ['CASH_OUT', 'TRANSFER', 'PAYMENT', 'CASH_IN', 'DEBIT']
-    payment_counts = [1000, 2000, 1500, 1800, 1200]  # Example data, replace with your actual data
-    plt.bar(payment_types, payment_counts)
+    payment_counts = df['type'].value_counts()
+    plt.bar(payment_counts.index, payment_counts.values)
     plt.xlabel('Payment Type')
     plt.ylabel('Frequency')
     st.pyplot()
 
     st.markdown("#### 2. Scatter Plot: Old Balance Origin vs. New Balance Origin")
-    df = pd.DataFrame({
-        'Old Balance Origin': [old_balance_origin],
-        'New Balance Origin': [new_balance_origin]
-    })
-    sns.scatterplot(data=df, x='Old Balance Origin', y='New Balance Origin')
+    sns.scatterplot(data=df, x='oldbalanceOrg', y='newbalanceOrig')
     st.pyplot()
 
-    st.markdown("#### 3. Distribution of Amount")
-    plt.hist(df['amount'], bins=5)
-    plt.xlabel('Amount')
-    plt.ylabel('Frequency')
+    st.markdown("#### 3. Scatter Plot: Old Balance Destination vs. New Balance Destination")
+    sns.scatterplot(data=df, x='oldbalanceDest', y='newbalanceDest')
     st.pyplot()
 
-    
     # Button to trigger prediction
     if st.button("Predict"):
         # Convert input data to DataFrame
         input_data = {
             'type': [payment_type],
-            'amount': [amount],
             'oldbalanceOrg': [old_balance_origin],
             'newbalanceOrig': [new_balance_origin],
             'oldbalanceDest': [old_balance_dest],
@@ -118,7 +106,6 @@ if session_state.authenticated:
             # Display the alert message
             message = "<h3><font color='{}'>!!! High Alert, Fraud Account Details...!!!</font></h3>".format(fraud_color)
             message += "<p><strong>Payment Type:</strong> {}</p>".format(payment_type)
-            message += "<p><strong>Amount:</strong> {} thousand</p>".format(amount)
             message += "<p><strong>Old Balance of Origin Account:</strong> {} lakhs</p>".format(old_balance_origin)
             message += "<p><strong>New Balance of Origin Account:</strong> {} lakhs</p>".format(new_balance_origin)
             message += "<p><strong>Old Balance of Destination Account:</strong> {} thousand</p>".format(old_balance_dest)
@@ -130,7 +117,6 @@ if session_state.authenticated:
             # Display genuine message
             message = "<h3><font color='{}'>Payment Is Genuine</font></h3>".format(genuine_color)
             message += "<p><strong>Payment Type:</strong> {}</p>".format(payment_type)
-            message += "<p><strong>Amount:</strong> {} thousand</p>".format(amount)
             message += "<p><strong>Old Balance of Origin Account:</strong> {} lakhs</p>".format(old_balance_origin)
             message += "<p><strong>New Balance of Origin Account:</strong> {} lakhs</p>".format(new_balance_origin)
             message += "<p><strong>Old Balance of Destination Account:</strong> {} thousand</p>".format(old_balance_dest)
