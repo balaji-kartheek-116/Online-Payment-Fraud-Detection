@@ -111,7 +111,7 @@ if session_state.authenticated:
         st.markdown(message, unsafe_allow_html=True)
         
         # Additional Visualizations
-        st.markdown("### Additional Visualizations")
+        st.markdown("### Visualizations")
         
         # Distribution of Payment Types
         st.subheader("Distribution of Payment Types")
