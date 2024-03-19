@@ -2,6 +2,8 @@ import streamlit as st
 import joblib
 import pandas as pd
 import base64
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 
 # Load the trained model
@@ -102,5 +104,33 @@ if session_state.authenticated:
             message += "<p><strong>New Balance of Origin Account:</strong> {} lakhs</p>".format(new_balance_origin)
             message += "<p><strong>Old Balance of Destination Account:</strong> {} thousand</p>".format(old_balance_dest)
             message += "<p><strong>New Balance of Destination Account:</strong> {} thousand</p>".format(new_balance_dest)
+        
         # Display the message using HTML
         st.markdown(message, unsafe_allow_html=True)
+        
+        # Additional Visualizations
+        st.markdown("### Additional Visualizations")
+        
+        # Distribution of Payment Types
+        st.subheader("Distribution of Payment Types")
+        payment_counts = df['type'].value_counts()
+        plt.bar(payment_counts.index, payment_counts.values)
+        plt.xlabel('Payment Type')
+        plt.ylabel('Frequency')
+        st.pyplot()
+
+        # Scatter Plot: Old Balance Origin vs. New Balance Origin
+        st.subheader("Scatter Plot: Old Balance Origin vs. New Balance Origin")
+        sns.scatterplot(data=df, x='oldbalanceOrg', y='newbalanceOrig')
+        st.pyplot()
+
+        # Scatter Plot: Old Balance Destination vs. New Balance Destination
+        st.subheader("Scatter Plot: Old Balance Destination vs. New Balance Destination")
+        sns.scatterplot(data=df, x='oldbalanceDest', y='newbalanceDest')
+        st.pyplot()
+
+        # Correlation Heatmap
+        st.subheader("Correlation Heatmap")
+        corr = df[['oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest']].corr()
+        sns.heatmap(corr, annot=True, cmap='coolwarm', fmt=".2f")
+        st.pyplot()
