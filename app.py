@@ -9,6 +9,8 @@ from sklearn.preprocessing import LabelEncoder
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
 
+df  = pd.read_csv("PaymentTransacgtions.csv")
+
 # Load the alert sound file
 alert_sound = open('alert.mp3', 'rb').read()
 alert_sound_encoded = base64.b64encode(alert_sound).decode('ascii')
