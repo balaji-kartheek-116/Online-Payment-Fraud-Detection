@@ -10,6 +10,8 @@ from sklearn.preprocessing import LabelEncoder
 st.set_option('deprecation.showPyplotGlobalUse', False)
 df = pd.read_csv("PaymentTransactions.csv")
 
+
+st.write(df.head())
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
 
