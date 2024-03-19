@@ -2,15 +2,7 @@ import streamlit as st
 import joblib
 import pandas as pd
 import base64
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
-
-# Disable warning
-st.set_option('deprecation.showPyplotGlobalUse', False)
-df = pd.read_csv("PaymentTransactions.csv")
-
-
 
 # Load the trained model
 knn_model = joblib.load("knn_model.pkl")
@@ -63,32 +55,6 @@ if session_state.authenticated:
     old_balance_dest = st.number_input("Old Balance of Destination Account")
     new_balance_dest = st.number_input("New Balance of Destination Account")
 
-    # Visualizations
-    st.markdown("### Data Visualization")
-    st.markdown("#### 1. Distribution of Payment Types")
-    payment_types = ['CASH_OUT', 'TRANSFER', 'PAYMENT', 'CASH_IN', 'DEBIT']
-    payment_counts = [1000, 2000, 1500, 1800, 1200]  # Example data, replace with your actual data
-    plt.bar(payment_types, payment_counts)
-    plt.xlabel('Payment Type')
-    plt.ylabel('Frequency')
-    st.pyplot()
-
-    st.markdown("#### 2. Scatter Plot: Old Balance Origin vs. New Balance Origin")
-    df = pd.DataFrame({
-        'Old Balance Origin': [old_balance_origin],
-        'New Balance Origin': [new_balance_origin]
-    })
-    sns.scatterplot(data=df, x='Old Balance Origin', y='New Balance Origin')
-    st.pyplot()
-
-    st.markdown("#### 3. Distribution of Amount")
-    amounts = df['amount']  # Example data, replace with your actual data
-    plt.hist(amounts, bins=5)
-    plt.xlabel('Amount')
-    plt.ylabel('Frequency')
-    st.pyplot()
-
-    
     # Button to trigger prediction
     if st.button("Predict"):
         # Convert input data to DataFrame
