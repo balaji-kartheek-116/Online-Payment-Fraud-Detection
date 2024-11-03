@@ -52,6 +52,8 @@ else:
     st.sidebar.warning("Please login to continue.")
 
 if session_state.authenticated:
+
+    st.dataframe(df)
     payment_type = st.selectbox("Payment Type", ["CASH_OUT", "TRANSFER", "PAYMENT", "CASH_IN", "DEBIT"])
     amount = st.number_input("Amount Available")
     old_balance_origin = st.number_input("Old Balance of Origin Account")
