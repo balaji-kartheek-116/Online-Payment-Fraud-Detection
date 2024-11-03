@@ -87,7 +87,7 @@ if session_state.authenticated:
         genuine_color = 'green'
 
         # Play alert sound if prediction is fraud
-        if prediction[0] == 0:
+        if prediction[0] == 1:
             # Display the alert message
             message = "<h3><font color='{}'>!!! High Alert, Fraud Account Details...!!!</font></h3>".format(fraud_color)
             message += "<p><strong>Payment Type:</strong> {}</p>".format(payment_type)
